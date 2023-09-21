@@ -3,6 +3,10 @@ import os
 import pyarrow.parquet as pq
 from tqdm import tqdm
 import requests
+from time import sleep
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 def make_hash_key(df_row) -> str:
@@ -53,3 +57,4 @@ if __name__ == "__main__":
                 image_filename=f"{hash_key}_{idx}",
                 save_path="../data/images",
             )
+            # sleep(1)
