@@ -1,4 +1,4 @@
-from src.utils import make_hash_key
+from src.tabular import make_hash_key
 import pandas as pd
 
 
