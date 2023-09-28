@@ -1,9 +1,6 @@
 import hashlib
 import os
 import pyarrow.parquet as pq
-from tqdm import tqdm
-import requests
-from time import sleep
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -38,23 +35,3 @@ def get_mintel_row(parquet_files_path):
             for index, row in df.iterrows():
                 yield row
 
-
-def save_image(image_url: str, image_filename: str, save_path: str) -> None:
-    r = requests.get(image_url, allow_redirects=True, verify=False)
-
-    open(f"{save_path}/{image_filename}.png", "wb").write(r.content)
-
-    return
-
-
-if __name__ == "__main__":
-    for row in tqdm(get_mintel_row("../data/mintel_source")):
-        hash_key = make_hash_key(row)
-        all_images = row["ProductAllImagesLinksText"].strip().split()
-        for idx, url in enumerate(all_images):
-            save_image(
-                image_url=url,
-                image_filename=f"{hash_key}_{idx}",
-                save_path="../data/images",
-            )
-            # sleep(1)
