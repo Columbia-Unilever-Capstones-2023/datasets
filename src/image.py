@@ -24,7 +24,7 @@ if __name__ == "__main__":
     for row in tqdm(get_mintel_row("../data/mintel_source")):
         hash_key = make_hash_key(row)
 
-        if not _image_already_downloaded(images_dir="../data/mintel_source", hash_key=hash_key):
+        if not _image_already_downloaded(images_dir="../data/images", hash_key=hash_key):
             all_images = row["ProductAllImagesLinksText"].strip().split()
             for idx, url in enumerate(all_images):
                 save_image(
