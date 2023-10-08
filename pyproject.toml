@@ -11,6 +11,8 @@ requests = "^2.31.0"
 pytest = "^7.4.2"
 tqdm = "^4.66.1"
 pyarrow = "^13.0.0"
+fuzzywuzzy = "^0.18.0"
+rapidfuzz = "^3.3.1"
 
 [tool.poetry.dev-dependencies]
 pip-system-certs = "^4.0"
