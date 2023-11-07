@@ -2,7 +2,7 @@ import requests
 import fnmatch
 import os
 from tqdm import tqdm
-from tabular import get_mintel_row, make_hash_key
+from tabular import get_mintel_row, make_hash_key, get_parquet_total_row_count
 
 
 def _image_already_downloaded(images_dir: str, hash_key: str) -> bool:
@@ -21,10 +21,15 @@ def save_image(image_url: str, image_filename: str, save_path: str) -> None:
 
 
 if __name__ == "__main__":
-    for row in tqdm(get_mintel_row("../data/mintel_source")):
+    for row in tqdm(
+        get_mintel_row("../data/mintel_source"),
+        total=get_parquet_total_row_count("../data/mintel_source"),
+    ):
         hash_key = make_hash_key(row)
 
-        if not _image_already_downloaded(images_dir="../data/images", hash_key=hash_key):
+        if not _image_already_downloaded(
+            images_dir="../data/images", hash_key=hash_key
+        ):
             all_images = row["ProductAllImagesLinksText"].strip().split()
             for idx, url in enumerate(all_images):
                 save_image(

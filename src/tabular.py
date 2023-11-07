@@ -2,6 +2,7 @@ import hashlib
 import os
 import pyarrow.parquet as pq
 import urllib3
+import sqlalchemy
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -14,6 +15,23 @@ def make_hash_key(df_row) -> str:
     hash_key = hashlib.md5(row_str.encode()).hexdigest()
 
     return hash_key
+
+
+def get_parquet_total_row_count(parquet_files_path: str) -> int:
+    parquet_files = [
+        os.path.join(parquet_files_path, file)
+        for file in os.listdir(parquet_files_path)
+        if file.endswith(".parquet")
+    ]
+
+    total_rows = 0
+
+    # Loop through each parquet file and get number of rows from metadata
+    for file in parquet_files:
+        parquet_file = pq.ParquetFile(file)
+        total_rows += parquet_file.metadata.num_rows
+
+    return total_rows
 
 
 def get_mintel_row(parquet_files_path):
@@ -35,3 +53,9 @@ def get_mintel_row(parquet_files_path):
             for index, row in df.iterrows():
                 yield row
 
+def load_mintel_into_sql(sql_connection_string:str) -> None:
+    engine = sqlalchemy.create_engine(sql_connection_string)
+
+
+if __name__ == "__main__":
+    print(get_parquet_total_row_count("../data/mintel_source"))
