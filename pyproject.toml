@@ -11,6 +11,7 @@ requests = "^2.31.0"
 pytest = "^7.4.2"
 tqdm = "^4.66.1"
 pyarrow = "^13.0.0"
+SQLAlchemy = "^2.0.21"
 fuzzywuzzy = "^0.18.0"
 rapidfuzz = "^3.3.1"
 
